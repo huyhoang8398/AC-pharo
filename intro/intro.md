@@ -8,6 +8,8 @@ institute:
 - University of Science And Technology of Hanoi
 theme:
 - CambridgeUS
+toc: 
+- true
 ---
 
 # Introduction
