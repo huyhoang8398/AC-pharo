@@ -9,7 +9,7 @@ institute:
 theme:
 - Ilmenau
 colortheme:
-- dove 
+- seagull 
 #logo: '`/Users/huyhoang8398/AC-pharo/course/figures/logousth.png`{=latex}'
 toc: 
 - true
@@ -109,6 +109,7 @@ toc:
 ### Connecting in Pharo IoT server by Hostname
 ```
 ip := NetNameResolver addressForName: 'pharoiot-01'.
+
 remotePharo := TlpRemoteIDE connectTo: 
     (TCPAddress ip: ip port:40423).
 ```
@@ -142,6 +143,7 @@ remotePharo openProcessBrowser.
 ```
 remoteBoard := remotePharo evaluate: [ 
     RpiBoard3B current].
+
 remoteBoard inspect.
 ```
 
@@ -150,5 +152,80 @@ remoteBoard inspect.
 ![Remote GPIO inspector](/Users/huyhoang8398/AC-pharo/course/figures/PharoThingsInspector.png){ width=50% }
 
 ## GPIOs
-* The board inspector shows a layout of pins similar to Raspberry Pi docs. But here it is a live tool which represents the current pins state.
+* A live tool which represents the current pins state.
 * The evaluation pane in the bottom of the inspector provides bindings to gpio pins which you can script by #doIt/printIt commands
+* Digital pins are shown with green/red icons which represent high/low (1/0) values.
+* Able to togge the value. 
+
+### Saving the remote image
+`remotePharo saveImage.`
+
+### Disconnect all remote sessions
+`TlpRemoteIDE disconnectAll.`
+
+# Day 1 
+## Lesson 1 – Turning LED on/off
+### Components 
+* 1 Raspberry Pi connected to your network (wired or wireless) 
+* 1 Breadboard
+* 1 LED
+* 1 Resistor (330 ohms)
+* Jumper wires
+
+## Experimental procedure
+
+![Physical connection LED](/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-led-resistor-lesson-01.png){ width=28% }
+
+\
+* The circuit consists of an LED that lights up when power is applied, a resistor to limit current and a power supply (the Rasp).
+
+## Physical connection LED detail
+* Connect the Ground PIN from Raspberry in the breadboard blue rail (-). Raspeberry Pi models with 40 pins has 8 GPIO ground pins. You can connect with anyone. In this experiment we will use the PIN6 (Ground);
+* Then connect the resistor from the blue rail on the breadboard (-) to a column on the breadboard
+* Now push the LED legs into the breadboard, with the long leg (with the kink) on the right;
+* And insert a jumper wire connecting the rigth column and the PIN7 (GPIO7). 
+
+## Experimental code
+### Connecting remotely
+* Run this code in Playground:
+
+```
+remotePharo := TlpRemoteIDE connectTo: (TCPAddress ip: 
+    #[193 51 236 167] port: 40423)
+GTInspector enableStepRefresh
+
+remoteBoard := remotePharo evaluate: [ RpiBoard3B 
+    current].
+
+remoteBoard inspect.
+```
+$\Longrightarrow$ Make a new connection to your Rpi and Open the *Remote Playground*
+
+## Experimental code 
+* To control the LED we first introduce the named variable #led which we as- signed to GPIO7 pin instance:
+\
+```
+led := gpio7.
+```
+* Then we configure the pin to be in digital output mode and set the value:
+```
+led beDigitalOutput.
+led value: 1.
+```
+$\Longrightarrow$ It turns the LED on.
+
+## Experimental code 
+* You can **notice** that gpio variables are not just numbers/ids.
+* They are real **objects** with behaviour.
+* For example you can ask pin to toggle a value:
+```
+led toggleDigitalValue.
+```
+* Or ask a pin for current value if you want to check it:
+```
+led value.
+```
+
+## Result
+![Remote Board Inspector](/Users/huyhoang8398/AC-pharo/course/figures/pharothings-inspector-remote-board-raspberry.png){ width=44% }
+
