@@ -1,16 +1,21 @@
 ---
 title:
-- Live Programming IoT devices with PharoThings
+- Live Programming IoT devices 
+subtitle: 
+- Pharo Things
 author: 
 - Do Hoang
 date: \today{}
 institute: 
-- University of Science And Technology of Hanoi
+- Vietnam France University 
 theme:
-- Ilmenau
+- CambridgeUS 
 colortheme:
-- seagull 
-#logo: '`/Users/huyhoang8398/AC-pharo/course/figures/logousth.png`{=latex}'
+- default 
+innertheme:
+- rounded 
+outertheme:
+- miniframes 
 toc: 
 - true
 ---
@@ -20,8 +25,7 @@ toc:
 
 * Run Pharo IoT in a Raspberry Pi that has Raspbian already installed.
 * Install Pharo IoT and Raspbian from scratch in headless mode (without keyboard/mouse/screen);
-* Run and use Pharo IoT IDE on your Linux, Windows or Mac OSX com- puter.
-
+* Run and use Pharo IoT IDE on your Linux, Windows or Mac OSX computer.
 
 # Installation 
 
