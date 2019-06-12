@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>intro.html</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+
+</head>
+
+<body>
+
+<hr />
+
+<p>title:
+- Live Programming IoT devices with PharoThings
+author: 
+- Do Hoang
+date: \today{}
+institute: 
+- University of Science And Technology of Hanoi
+theme:
+- Ilmenau
+colortheme:
+- seagull </p>
+
+<h1>logo: '<code>/Users/huyhoang8398/AC-pharo/course/figures/logousth.png</code>{=latex}'</h1>
+
+<p>toc: </p>
+
+<h2>- true</h2>
+
+<h1>Objective</h1>
+
+<h2>Objective</h2>
+
+<ul>
+<li>Run Pharo IoT in a Raspberry Pi that has Raspbian already installed.</li>
+<li>Install Pharo IoT and Raspbian from scratch in headless mode (without keyboard/mouse/screen);</li>
+<li>Run and use Pharo IoT IDE on your Linux, Windows or Mac OSX com- puter.</li>
+</ul>
+
+<h1>Installation</h1>
+
+<h2>Install in a Raspberry that has Raspbian</h2>
+
+<ul>
+<li>If you already have Raspbian running on your Raspberry Pi, you can simply use the Pharo IoT zero-conf. </li>
+<li>Open a terminal window in your Rpi ( local or remote SSH )</li>
+</ul>
+
+<h2>Install in a Raspberry that has Raspbian</h2>
+
+<ul>
+<li>Enter: 
+<code>bash
+wget -O - get.pharo/server | bash
+</code></li>
+<li>=> You will download the server side and extract the files to the pharoiot-server folder</li>
+</ul>
+
+<h2>Install in a Raspberry that has Raspbian</h2>
+
+<ul>
+<li>Goto the folder and run pharo server </li>
+</ul>
+
+<p><code>bash
+    cd pharoiot-server
+    ./pharo-server
+</code>
+* If everything is alright, you will see this message: <code>‘a TlpRemoteUIManager is registered on port 40423’</code>.
+  * This means that you have TelePharo running on your Raspberry on TCP port 40423.
+* Now you can use Pharo IoT on your computer to connect to your Raspberry and create IoT applications remotely.</p>
+
+<h2>Install Raspbian and Pharo IoT from scratch (Raspberry Pi Headless Setup)</h2>
+
+<ul>
+<li>There are many options to install Raspbian on your Raspberry. The most common way is to download the ISO image from the official Raspberry website and follow the steps to install it.
+<ul>
+<li>Basically, they are: copy an ISO image to an SD card, insert it in Raspberry Pi, turn On the Rasp and use a <code>keyboard/mouse/screen</code> to use it as a normal computer.</li>
+</ul></li>
+<li>But we will not use <code>keyboard/mouse/screen</code> to install Raspbian and run Pharo IoT! We do not need them.</li>
+</ul>
+
+<h2>Install Raspbian and Pharo IoT from scratch (Raspberry Pi Headless Setup)</h2>
+
+<ul>
+<li>We will use a third-party program to perform these tasks automatically:
+<ul>
+<li>Install Raspbian Full OS</li>
+<li>Setting the Raspberry Pi hostname</li>
+<li>Set boot to console</li>
+<li>Enable the I2C and SPI modules</li>
+<li>Connect it in your WiFi network</li>
+<li>Download Pharo IoT (requires Rasberry Pi connected on the internet)</li>
+<li>and start the Pharo IoT server at every boot</li>
+</ul></li>
+</ul>
+
+<h2>Pibakery</h2>
+
+<ul>
+<li>Download the Pibakery.</li>
+<li>Download the configuration file.
+<code>
+http://get.pharoiot.org/pibakeryPharoIoT.xml
+</code></li>
+<li>Write to your Rpi SD card.</li>
+</ul>
+
+<h2>Pibakery</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-pharoiot-pibackery-raspberry-headless.png" alt="Configuration" title="" />{ width=90% }</p>
+
+<h2>Pibakery</h2>
+
+<ul>
+<li><p>Change your hostname and WiFi configuration in PiBakery;
+\</p></li>
+<li><p>Insert the SD card into your machine, click Write and select the Opera- tion System Raspbian Full;
+\</p></li>
+<li><p>After the process, insert the SD in the Raspberry and wait about 3 minutes to complete the automatic configuration. Time depends on the speed of your internet;
+\</p></li>
+<li><p>You can now find your Raspberry by the Hostname you defined above.
+\</p></li>
+<li><p>You do not need to do anything else on your Raspberry Pi. It is already loaded with Pharo IoT starting at every boot on the TCP port 40423</p></li>
+</ul>
+
+<h2>Run Pharo IoT IDE on your Linux, Windows or Mac OSX computer</h2>
+
+<p><strong>Download</strong> Pharo from
+<code>
+    get.pharoiot.com/multi.zip
+</code></p>
+
+<h2>Run Pharo IoT IDE on your Linux, Windows or Mac OSX computer</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharo-ui.png" alt="Pharo IDE" title="" />{ width=60% }</p>
+
+<h1>Get Started</h1>
+
+<h2>Connecting from your computer to Raspberry Pi</h2>
+
+<h3>Connecting in Pharo IoT server by Hostname</h3>
+
+<p>```
+ip := NetNameResolver addressForName: 'pharoiot-01'.</p>
+
+<p>remotePharo := TlpRemoteIDE connectTo: 
+    (TCPAddress ip: ip port:40423).
+```</p>
+
+<h3>Connecting in Pharo IoT server by IP</h3>
+
+<p><code>
+remotePharo := TlpRemoteIDE connectTo: 
+    (TCPAddress ip: #[192 168 1 200] port: 40423).
+</code></p>
+
+<h2>Working remotely</h2>
+
+<ul>
+<li>If you don’t receive any error, this means that you are connected.</li>
+<li>Now you can call the Remote Playground, Remote System Browser, and Remote Process Browser.</li>
+</ul>
+
+<h3>Remote control</h3>
+
+<p><code>
+remotePharo openPlayground.
+remotePharo openBrowser.
+remotePharo openProcessBrowser.
+</code></p>
+
+<h2>Inspect the remote Raspberry Pi GPIO board</h2>
+
+<ul>
+<li>You can inspect the physical board of your Raspberry Pi. </li>
+<li>For Raspberry, it will be one of the RpiBoard subclasses. Currently, you can use the following classes according to the models:
+<ul>
+<li>RpiBoardBRev1: Raspberry Pi Model B Revision 1</li>
+<li>RpiBoardBRev2: Raspberry Pi Model B Revision 2</li>
+<li>RpiBoard3B: Raspberry Pi Model B+, Pi2 Model B, Pi3 Model B, Pi3 Model B+</li>
+</ul></li>
+</ul>
+
+<h3>With the chosen class evaluate the following code to open an inspector:</h3>
+
+<p><code>
+remoteBoard := remotePharo evaluate: [ 
+    RpiBoard3B current].
+remoteBoard inspect.
+</code></p>
+
+<h2>Remote GPIO inspector</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/PharoThingsInspector.png" alt="Remote GPIO inspector" title="" />{ width=50% }</p>
+
+<h2>GPIOs</h2>
+
+<ul>
+<li>A live tool which represents the current pins state.</li>
+<li>The evaluation pane in the bottom of the inspector provides bindings to gpio pins which you can script by #doIt/printIt commands</li>
+<li>Digital pins are shown with green/red icons which represent high/low (1/0) values.</li>
+<li>Able to togge the value. </li>
+</ul>
+
+<h3>Saving the remote image</h3>
+
+<p><code>remotePharo saveImage.</code></p>
+
+<h3>Disconnect all remote sessions</h3>
+
+<p><code>TlpRemoteIDE disconnectAll.</code></p>
+
+<h1>Day 1</h1>
+
+<h2>Lesson 1 – Turning LED on/off</h2>
+
+<h3>Components</h3>
+
+<ul>
+<li>1 Raspberry Pi connected to your network (wired or wireless) </li>
+<li>1 Breadboard</li>
+<li>1 LED</li>
+<li>1 Resistor (330 ohms)</li>
+<li>Jumper wires</li>
+</ul>
+
+<h2>Experimental procedure</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-led-resistor-lesson-01.png" alt="Physical connection LED" title="" />{ width=28% }</p>
+
+<p>\
+* The circuit consists of an LED that lights up when power is applied, a resistor to limit current and a power supply (the Rasp).</p>
+
+<h2>Physical connection LED detail</h2>
+
+<ul>
+<li>Connect the Ground PIN from Raspberry in the breadboard blue rail (-). Raspeberry Pi models with 40 pins has 8 GPIO ground pins. You can connect with anyone. In this experiment we will use the PIN6 (Ground);</li>
+<li>Then connect the resistor from the blue rail on the breadboard (-) to a column on the breadboard</li>
+<li>Now push the LED legs into the breadboard, with the long leg (with the kink) on the right;</li>
+<li>And insert a jumper wire connecting the rigth column and the PIN7 (GPIO7). </li>
+</ul>
+
+<h2>Experimental code</h2>
+
+<h3>Connecting remotely</h3>
+
+<ul>
+<li>Run this code in Playground:</li>
+</ul>
+
+<p>```
+remotePharo := TlpRemoteIDE connectTo: (TCPAddress ip: 
+    #[193 51 236 167] port: 40423)
+GTInspector enableStepRefresh</p>
+
+<p>remoteBoard := remotePharo evaluate: [ RpiBoard3B 
+    current].</p>
+
+<p>remoteBoard inspect.
+```
+$\Longrightarrow$ Make a new connection to your Rpi and Open the <em>Remote Playground</em></p>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>To control the LED we first introduce the named variable #led which we assigned to GPIO7 pin instance:
+\
+<code>
+led := gpio7.
+</code></li>
+<li>Then we configure the pin to be in digital output mode and set the value:
+<code>
+led beDigitalOutput.
+led value: 1.
+</code>
+$\Longrightarrow$ It turns the LED on.</li>
+</ul>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>You can <strong>notice</strong> that gpio variables are not just numbers/ids.</li>
+<li>They are real <strong>objects</strong> with behaviour.</li>
+<li>For example you can ask pin to toggle a value:
+<code>
+led toggleDigitalValue.
+</code></li>
+<li>Or ask a pin for current value if you want to check it:
+<code>
+led value.
+</code></li>
+</ul>
+
+<h2>Result</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-inspector-remote-board-raspberry.png" alt="Remote Board Inspector" title="" />{ width=44% }</p>
+
+<h1>Lesson 2 - Blinking LED</h1>
+
+<h3>Components</h3>
+
+<ul>
+<li>1 Rasberry Pi</li>
+<li>Bread-board</li>
+<li>1 LED</li>
+<li>1 Resistor (330 ohms)</li>
+<li>Jumper wires</li>
+</ul>
+
+<h3>Experimental procedure</h3>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-led-resistor-lesson-01.png" alt="Physical connection LED" title="" />{ width=28% }</p>
+
+<p>\
+* Using the same setup as the last section</p>
+
+<h2>Experimental code</h2>
+
+<h3>Connecting remotely</h3>
+
+<ul>
+<li>Run this code in Playground:</li>
+</ul>
+
+<p>```
+remotePharo := TlpRemoteIDE connectTo: (TCPAddress ip: 
+    #[193 51 236 212] port: 40423)
+GTInspector enableStepRefresh.</p>
+
+<p>remoteBoard := remotePharo evaluate: 
+    [ RpiBoard3B current].</p>
+
+<p>remoteBoard inspect.
+```
+$\Longrightarrow$ Make a new connection to your Rpi and Open the <em>Remote Playground</em></p>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>We still assigned the LED pin to GPIO7 pin:
+\
+<code>
+led := gpio7.
+led beDigitalOutput.
+</code></li>
+<li>To blink the LED, we create a loop to change the value of LED by time.</li>
+<li>We use the method <em>toggleDigitalValue</em> as previously.</li>
+<li>For example we blink the LED every 1 second by 10 times.</li>
+</ul>
+
+<p><code>
+[ 10 timesRepeat: [
+  led toggleDigitalValue.
+  (Delay forSeconds: 1) wait
+] ] forkNamed: 'BlinkerProcess'.
+</code>
+$\Longrightarrow$ Your LED is blinking now!</p>
+
+<h1>Lesson 3 - Introduce to Pharo object-oriented</h1>
+
+<h2>Blinking LED using OOP</h2>
+
+<h3>Experimental code</h3>
+
+<p><code>
+|blinker|
+blinker := Blinker new.
+blinker timesRepeat: 10 waitForSeconds: 1.
+</code></p>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>We declare the variable <em>blinker</em> in the first line.</li>
+<li>We will use this variable to create an object using the Blinker class.</li>
+<li>In the second line, we instantiate the Blinker class in the <em>blinker</em> variable</li>
+<li>In the third line, we send some messages to the blinker object to controll the times.</li>
+</ul>
+
+<p>$\Longrightarrow$ This will make the GPIO behave according to the parameters</p>
+
+<h2>Create your own class remotely</h2>
+
+<ul>
+<li>To create a class, we need first to create a package.</li>
+<li>In your local playground, call the Remote System Browser of your Raspberry Pi
+<code>
+remotePharo := TlpRemoteIDE connectTo: (TCPAddress ip: 
+#[193 51 236 212] port: 40423).
+remotePharo openBrowser.
+</code></li>
+</ul>
+
+<h2>Create a package</h2>
+
+<ul>
+<li>Using the Remote Browser to create.</li>
+<li><em>Right-click</em> the package area and enter the package name.</li>
+<li>For example, we create a package named <em>PharoThings-Lessons</em></li>
+</ul>
+
+<h2>Create a class</h2>
+
+<ul>
+<li>Edit the default class template by changing the <em>#NameOfSublass</em> to the name of new class</li>
+<li>For example, let's create the class <em>#Blinker</em></li>
+<li>The class name begin with hash symbol (#) and a calpital leter.
+<code>
+Object subclass: #Blinker
+instaceVariableNames: 'led'
+classVariableNames: ''
+package: 'PharoThings-Lessons'
+</code></li>
+<li>Right click on the code and select <em>Accept</em> option. 
+\
+$\Longrightarrow$ The class is compiled and added to the system.</li>
+</ul>
+
+<h2>Create a protocol</h2>
+
+<ul>
+<li>Create a new protocol to organize the methods. </li>
+<li>The first protocol: <code>initialization</code></li>
+</ul>
+
+<h2>Create a protocol</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-creating-protocol.png" alt="Creating a package remotely." title="" /></p>
+
+<h2>Create a method</h2>
+
+<ul>
+<li>Inside this protocol, create an <code>initialize</code> method.
+\
+$\Longrightarrow$ Everytime a new object was created using Blinker class, this method will be executed to define some variable in the new object.
+\</li>
+<li>Let's use the instance variable <code>led</code>.</li>
+<li>The instance variable is private to the object and accessible by any methods inside this class.</li>
+<li>These methods can access this variable to get or set any value to it.</li>
+</ul>
+
+<h3>initialize</h3>
+
+<p><code>
+initialize
+    led := PotClockGPIOPin id: 4 number: 7.
+    led board: RpiBoard3B current; beDigitalOutput
+</code></p>
+
+<h2>Creating the initialize method</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-creating-method-initialize.png" alt="Creating the initialize method" title="" /></p>
+
+<h2>Explanation</h2>
+
+<h3>Explanation</h3>
+
+<ul>
+<li>The first line defines the name of the method;</li>
+<li>In the second line, we configure the GPIO that we wanna use. Note that we need the GPIO number and ID. The ID is required to communicate with WiringPi Library. You can seethe ID and GPIO number in PotRemoteBoard inspector.</li>
+<li>In the third line, we define the model of the Raspberry board and con- figure this GPIO as beDigitalOutput. This means that when the GPIO change to <code>value:1</code>, the power will go out of the GPIO to power the LED.</li>
+<li>Compile your code (cmd + S) and the method will be shown in the remote browser.</li>
+</ul>
+
+<h2>Create a method to do actions</h2>
+
+<ul>
+<li>Let’s create a method to control the object led inside the class Blinker.</li>
+<li>Create a protocol <code>operations</code> and inside this protocol, create the following method</li>
+</ul>
+
+<h3>Method</h3>
+
+<p><code>
+timesRepeat: anInteger waitForSeconds: aNumber
+          [ anInteger timesRepeat: [
+              led toggleDigitalValue.
+              (Delay forSeconds: aNumber) wait
+          ] ] forkNamed: 'BlinkerProcess'.
+</code></p>
+
+<h2>Explanation</h2>
+
+<h3>Explanation</h3>
+
+<ul>
+<li>In the first line, we define the message with <code>timesRepeat:</code> and wait <code>ForSeconds:</code>. We inform the kind of value will be received, creating 2 variables: aNumber and anInteger;</li>
+<li>We replace these variables in the code and now we have the control to say how many times repeat and for how many seconds;</li>
+<li>We finished the code by putting everything inside a fork to create a process in Pharo. While the process is running, you can open the Remote Process Browser (remotePharo openProcessBrowser) and see the process. This is useful when you wanna kill the remote process.</li>
+</ul>
+
+<h2>Using the new class</h2>
+
+<ul>
+<li>Now we can use the class that we created, the Blinker class. To do this, let’s open the Remote Playground:
+<code>
+remotePharo openPlayground
+</code></li>
+</ul>
+
+<h3>Call blinker class</h3>
+
+<p><code>
+|blinker|
+    blinker := Blinker new.
+    blinker timesRepeat: 10 waitForSeconds: 1.
+</code></p>
+
+<h2>Save your work</h2>
+
+<p>Don’t forget to save your work remotely. To do this, run this command on your local playground:
+<code>
+remotePharo saveImage.
+</code></p>
+
+<h1>Lesson 4 - LED Flowing Lights</h1>
+
+<h2>What do we need</h2>
+
+<h3>Components</h3>
+
+<ul>
+<li>1 Raspberry Pi connected to your network (wired or wireless) </li>
+<li>1 Breadboard</li>
+<li>8 LEDs</li>
+<li>8 Resistors 330ohms</li>
+<li>Jumper wires</li>
+</ul>
+
+<h2>Experimental procedure</h2>
+
+</body>
+</html>
