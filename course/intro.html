@@ -15,20 +15,23 @@
 <hr />
 
 <p>title:
-- Live Programming IoT devices with PharoThings
+- Live Programming IoT devices 
+subtitle: 
+- Pharo Things
 author: 
 - Do Hoang
 date: \today{}
 institute: 
-- University of Science And Technology of Hanoi
+- Vietnam France University
 theme:
-- Ilmenau
+- CambridgeUS
 colortheme:
-- seagull </p>
-
-<h1>logo: '<code>/Users/huyhoang8398/AC-pharo/course/figures/logousth.png</code>{=latex}'</h1>
-
-<p>toc: </p>
+- default 
+innertheme:
+- rounded 
+outertheme:
+- miniframes 
+toc: </p>
 
 <h2>- true</h2>
 
@@ -39,7 +42,7 @@ colortheme:
 <ul>
 <li>Run Pharo IoT in a Raspberry Pi that has Raspbian already installed.</li>
 <li>Install Pharo IoT and Raspbian from scratch in headless mode (without keyboard/mouse/screen);</li>
-<li>Run and use Pharo IoT IDE on your Linux, Windows or Mac OSX com- puter.</li>
+<li>Run and use Pharo IoT IDE on your Linux, Windows or Mac OSX computer.</li>
 </ul>
 
 <h1>Installation</h1>
@@ -216,7 +219,7 @@ remoteBoard inspect.
 
 <p><code>TlpRemoteIDE disconnectAll.</code></p>
 
-<h1>Day 1</h1>
+<h1>Lesson 1 – Turning LED on/off</h1>
 
 <h2>Lesson 1 – Turning LED on/off</h2>
 
@@ -533,7 +536,144 @@ remotePharo saveImage.
 <li>Jumper wires</li>
 </ul>
 
-<h2>Experimental procedure</h2>
+<h2>Schema connection 8 LEDs</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-8leds-8resistors-board.jpeg" alt="Schema connection 8 LEDs" title="" />{ width=50% }</p>
+
+<h2>Physical connection 8 LEDs</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-raspberry-leds-breadboard-01.jpeg" alt="Physical connection 8 LEDs" title="" />{ width=80% }</p>
+
+<h2>Experimental process</h2>
+
+<ul>
+<li>Connect the Ground PIN from Raspberry in the breadboard blue rail (-).</li>
+<li>Then connect the 8 resistors from the blue rail (-) to a column on the breadboard.</li>
+<li>Now push the LED legs into the breadboard, with the long leg (with the kink) on the right.</li>
+<li>And insert the jumper wires connecting the right column of each LED to GPIO from 0 to 7.</li>
+</ul>
+
+<h2>Connecting remotely</h2>
+
+<p><code>
+remotePharo := TlpRemoteIDE connectTo: (TCPAddress ip: 
+    #[193 51 236 212] port: 40423)
+GTInspector enableStepRefresh.
+remoteBoard := remotePharo evaluate: [ RpiBoard3B current].
+    remoteBoard inspect.
+</code></p>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>Let's create an array and initialize the 8 LEDs, putting each one in a position of the array.
+\
+<code>
+gpioArray := { gpio0. gpio1. gpio2. gpio3. 
+gpio4. gpio5. gpio6. gpio7 }.
+gpioArray do: [ :item | item beDigitalOutput ].
+</code></li>
+</ul>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>In the previous lesson, we use <code>toggleDigitalValue</code> to change the value of the object (Led value)
+<code>
+gpioArray do: [ :item | item toggleDigitalValue ].
+</code></li>
+</ul>
+
+<h2>Experimental code</h2>
+
+<ul>
+<li>Let’s put a Delay after changing the led value, to wait a bit time before to changethenextLEDvalue. Let’s also put this inside a process using the method <code>forkNamed:</code></li>
+</ul>
+
+<p>\
+<code>
+[
+    gpioArray do: [ :item | item toggleDigitalValue. 
+    (Delay forSeconds: 0.3) wait ].
+] forkNamed: 'FlowingProcess'.
+</code></p>
+
+<h2>Result</h2>
+
+<ul>
+<li>Execute this code and... cool! Now your LEDs are on by flowing an ordering!
+\</li>
+</ul>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-8leds-code-lesson-01.png" alt="Code on Inspector" title="" />{ width=60% }</p>
+
+<h2>Result</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-raspberry-leds-breadboard-02.jpeg" alt="LEDs turn On." title="" />{ width=75% }</p>
+
+<h2>Adding features</h2>
+
+<h3>Control loop time?</h3>
+
+<p><code>
+[ 2 timesRepeat: [
+    gpioArray do: [ :item | item toggleDigitalValue. 
+    (Delay forSeconds: 0.1) wait ].
+] ] forkNamed: 'FlowingProcess'.
+</code></p>
+
+<h2>Adding features</h2>
+
+<h3>Reversing the flow</h3>
+
+<p><code>
+[ 2 timesRepeat: [
+  gpioArray reverseDo: [ :item | item toggleDigitalValue. 
+  (Delay forSeconds: 0.1) wait ].
+] ] forkNamed: 'FlowingProcess'.
+</code></p>
+
+<h2>Terminating the process</h2>
+
+<ul>
+<li>Call the <strong>Remote Process Browser</strong>
+\</li>
+</ul>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-raspberry-remoteprocess.png" alt="Remote Process Browser" title="" /></p>
+
+<h1>Lesson 5 - I2C Sensors ( Temperature, Humidity, Acellerometer )</h1>
+
+<h2>Lesson 5 - I2C Sensors ( Temperature, Humidity, Acellerometer )</h2>
+
+<p>Let’s start using some sensors to interact automat- ically with the real world, taking the temperature, air pressure and humidity This kind of sensor use the I2C protocol to communicate.</p>
+
+<h2>Components</h2>
+
+<ul>
+<li>1 Raspberry Pi connected to your network (wired or wireless).</li>
+<li>1 Breadboard.</li>
+<li>1 BME280 temperature, humidity and pressure sensor.</li>
+<li>1 ADXL345 accelerometer sensor.</li>
+<li>Jumper wires.</li>
+</ul>
+
+<h2>The I2C protocol</h2>
+
+<h2>How I2C works?</h2>
+
+<ul>
+<li>Each device has set an ID or a unique address. Then the mas- ter device can choose which device to communicate with.</li>
+<li>The two wires are called Serial Clock (or SCL) and Serial Data (or SDA).
+<ul>
+<li>SDA: synchronize the data transfer between devices on the i2C bus and is generated by the master device.</li>
+<li>SCL: Carries the date.</li>
+</ul></li>
+</ul>
+
+<h2>Devices connected using I2C bus</h2>
+
+<p><img src="/Users/huyhoang8398/AC-pharo/course/figures/pharothings-i2c-bus.jpg" alt="Devices connected using I2C bus" title="" />{ width=72% }</p>
 
 </body>
 </html>
