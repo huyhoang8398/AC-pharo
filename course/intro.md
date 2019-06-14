@@ -1,4 +1,5 @@
 ---
+# pandoc intro.md -H preamble.tex -t beamer -o intro.pdf --slide-level=2
 title:
 - Live Programming IoT devices 
 subtitle: 
@@ -26,6 +27,25 @@ toc:
 * Run Pharo IoT in a Raspberry Pi that has Raspbian already installed.
 * Install Pharo IoT and Raspbian from scratch in headless mode (without keyboard/mouse/screen);
 * Run and use Pharo IoT IDE on your Linux, Windows or Mac OSX computer.
+
+# SSH 
+## How to use?
+
+* Know the Raspberry Pi IP address.
+  * In linux you can use a package called arp-scan 
+
+### Install
+```bash
+Ubuntu: 
+sudo apt install arp-scan
+Arch: 
+sudo pacman -S arp-scan
+```
+### How to use 
+```bash
+sudo apr-scan -l
+```
+
 
 # Installation 
 ## Install in a Raspberry that has Raspbian 
